@@ -5,7 +5,7 @@ import env
 from sklearn.model_selection import train_test_split
 
 
-
+# This will clean the data. 
 def clean_titanic(df):
     '''
     This function will clean the the titanic dataset
