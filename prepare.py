@@ -6,6 +6,23 @@ from sklearn.model_selection import train_test_split
 
 
 
+#-------------------------
+
+def split_function(df, target_varible):
+    train, test = train_test_split(df,
+                                   random_state=123,
+                                   test_size=.20,
+                                   stratify= df[target_varible])
+    
+    train, validate = train_test_split(train,
+                                   random_state=123,
+                                   test_size=.25,
+                                   stratify= train[target_varible])
+    return train, validate, test
+
+
+#-------------------------
+
 # This will clean the data. 
 def prep_telco(df_telco):
     '''
@@ -33,47 +50,32 @@ def prep_telco(df_telco):
     df_telco.total_charges = df_telco.total_charges.str.replace(' ', '0').astype(float)
     return df_telco
 
--------------------------
+#-------------------------
 
 
-def split_function(df, target_varible):
-    train, test = train_test_split(df,
-                                   random_state=123,
-                                   test_size=.20,
-                                   stratify= df[target_varible])
-    
-    train, validate = train_test_split(train,
-                                   random_state=123,
-                                   test_size=.25,
-                                   stratify= train[target_varible])
-    return train, validate, test
+# This will clean the data. 
+def prep_titanic(df_titanic):
+    '''
+    This function will clean the the titanic dataset
+    '''
+    df_titanic = df_titanic.drop(columns =['embark_town','class','age','deck'])
+    dummy_titanic = pd.get_dummies(df_titanic[['sex','embarked']], drop_first=True)
+    df_titanic = pd.concat([df_titanic, dummy_titanic], axis=1)
+    return df_titanic
 
---------------------------
-train_df_iris, validate_df_iris, test_df_iris = split_function(df_iris, 'species')
+#-------------------------
 
-print(f'Prepared df: {df_iris.shape}')
-print()
-print(f'Train: {train_df_iris.shape}')
-print(f'Validate: {validate_df_iris.shape}')
-print(f'Test: {test_df_iris.shape}')
-
---------------------------
-train_df_titanic, validate_df_titanic, test_df_titanic = split_function(df_titanic, 'survived')
-
-print(f'Prepared df: {df_titanic.shape}')
-print()
-print(f'Train: {train_df_titanic.shape}')
-print(f'Validate: {validate_df_titanic.shape}')
-print(f'Test: {test_df_titanic.shape}')
-
--------------------------
-train_df_telco, validate_df_telco, test_df_telco = split_function(df_telco, 'churn')
-
-print(f'Prepared df: {df_telco.shape}')
-print()
-print(f'Train: {train_df_telco.shape}')
-print(f'Validate: {validate_df_telco.shape}')
-print(f'Test: {test_df_telco.shape}')
+def prep_iris(df_iris):
+    '''
+    This function prepares the iris data by dropping the species_id and measurement_id.
+    It also renames the species_name column to species and creates a dummies for the
+    column species and at the end concats the dummy species columns with the iris database
+    '''
+    df_iris = df_iris.drop(columns = ['species_id', 'measurement_id'])
+    df_iris = df_iris.rename(columns={'species_name': 'species'})
+    dummy_iris = pd.get_dummies(df_iris.species, drop_first=True)
+    df_iris = pd.concat([df_iris, dummy_iris], axis=1)
+    return df_iris
 
 
 
