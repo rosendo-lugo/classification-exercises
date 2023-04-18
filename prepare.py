@@ -42,7 +42,7 @@ def prep_telco(df_telco):
                                              'streaming_tv',
                                              'streaming_movies',
                                              'paperless_billing',
-                                             'churn',       f
+                                             'churn',
                                              'contract_type',
                                              'internet_service_type',
                                              'payment_type']], dummy_na=False, drop_first=[True, True])
