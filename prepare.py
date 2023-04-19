@@ -1,4 +1,4 @@
-import acquire as acq
+import acquire
 import pandas as pd 
 import os
 
@@ -24,13 +24,13 @@ def split_function(df, target_varible):
 #-------------------------
 
 # This will clean the data. 
-def prep_telco(df_telco):
+def prep_telco(telco_df):
     '''
     This function will clean the the telco dataset
     '''
-    df_telco = df_telco.drop(columns =['contract_type_id', 'internet_service_type_id', 'payment_type_id'])
+    telco_df = telco_df.drop(columns =['contract_type_id', 'internet_service_type_id', 'payment_type_id'])
     
-    dummy_telco = pd.get_dummies(df_telco[['gender',
+    dummy_telco = pd.get_dummies(telco_df[['gender',
                                              'partner',
                                              'dependents',
                                              'phone_service',
@@ -46,36 +46,36 @@ def prep_telco(df_telco):
                                              'contract_type',
                                              'internet_service_type',
                                              'payment_type']], dummy_na=False, drop_first=[True, True])
-    df_telco = pd.concat([df_telco, dummy_telco], axis=1)
-    df_telco.total_charges = df_telco.total_charges.str.replace(' ', '0').astype(float)
-    return df_telco
+    telco_df = pd.concat([telco_df, dummy_telco], axis=1)
+    telco_df.total_charges = telco_df.total_charges.str.replace(' ', '0').astype(float)
+    return telco_df
 
 #-------------------------
 
 
 # This will clean the data. 
-def prep_titanic(df_titanic):
+def prep_titanic(titanic_df):
     '''
     This function will clean the the titanic dataset
     '''
-    df_titanic = df_titanic.drop(columns =['embark_town','class','age','deck'])
-    dummy_titanic = pd.get_dummies(df_titanic[['sex','embarked']], drop_first=True)
-    df_titanic = pd.concat([df_titanic, dummy_titanic], axis=1)
-    return df_titanic
+    titanic_df = titanic_df.drop(columns =['embark_town','class','age','deck'])
+    dummy_titanic = pd.get_dummies(titanic_df[['sex','embarked']], drop_first=True)
+    titanic_df = pd.concat([titanic_df, dummy_titanic], axis=1)
+    return titanic_df
 
 #-------------------------
 
-def prep_iris(df_iris):
+def prep_iris(iris_df):
     '''
     This function prepares the iris data by dropping the species_id and measurement_id.
     It also renames the species_name column to species and creates a dummies for the
     column species and at the end concats the dummy species columns with the iris database
     '''
-    df_iris = df_iris.drop(columns = ['species_id', 'measurement_id'])
-    df_iris = df_iris.rename(columns={'species_name': 'species'})
-    dummy_iris = pd.get_dummies(df_iris.species, drop_first=True)
-    df_iris = pd.concat([df_iris, dummy_iris], axis=1)
-    return df_iris
+    iris_df = iris_df.drop(columns = ['species_id', 'measurement_id'])
+    iris_df = iris_df.rename(columns={'species_name': 'species'})
+    dummy_iris = pd.get_dummies(iris_df.species, drop_first=True)
+    iris_df = pd.concat([iris_df, dummy_iris], axis=1)
+    return iris_df
 
 
 
