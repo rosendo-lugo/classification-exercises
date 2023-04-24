@@ -58,9 +58,19 @@ def prep_titanic(titanic_df):
     '''
     This function will clean the the titanic dataset
     '''
-    titanic_df = titanic_df.drop(columns =['embark_town','class','age','deck'])
-    dummy_titanic = pd.get_dummies(titanic_df[['sex','embarked']], drop_first=True)
+    # Drop any duplicates values
+    titanic_df = titanic_df.drop_duplicates()
+    
+    # Fills the small number of null values for embark_town with the mode
+    titanic_df['embark_town'] = titanic_df.embark_town.fillna(value='Southampton')
+    
+    # Uses one-hot encoding to create dummies of string columns for future modeling 
+    dummy_titanic = pd.get_dummies(titanic_df[['sex','embarked']],dummy_na=False, drop_first=True)
     titanic_df = pd.concat([titanic_df, dummy_titanic], axis=1)
+    
+    # Drops columns that are already represented by other columns
+    titanic_df = titanic_df.drop(columns =['passenger_id','embark_town','class','age','deck','sex','embarked'])
+
     return titanic_df
 
 #-------------------------
@@ -77,10 +87,90 @@ def prep_iris(iris_df):
     iris_df = pd.concat([iris_df, dummy_iris], axis=1)
     return iris_df
 
+# ---------------------
+# Create a model that includes only age, fare, and pclass. Does this model perform better than your baseline?
+# remove the following futures: sibsp	parch	alone	sex_male	embarked_Q	embarked_S
+# This will clean the data. 
+def prep_titanic2(titanic_df):
+    '''
+    This function will clean the the titanic dataset
+    '''
+    
+    titanic2_df = titanic_df['age'].fillna(0, inplace=True)
+    
+    # Drop any duplicates values
+    titanic2_df = titanic_df.drop_duplicates()
+    
+#     # Fills the small number of null values for embark_town with the mode
+#     titanic_df['embark_town'] = titanic_df.embark_town.fillna(value='Southampton')
+    
+#     # Uses one-hot encoding to create dummies of string columns for future modeling 
+#     dummy_titanic = pd.get_dummies(titanic_df[['sex','embarked']],dummy_na=False, drop_first=True)
+#     titanic_df = pd.concat([titanic_df, dummy_titanic], axis=1)
+    
+    # Drops columns that are already represented by other columns
+    titanic2_df = titanic2_df.drop(columns = ['passenger_id','embark_town',
+                                       'class','deck','sex','embarked','sibsp','parch','alone'])
+    
+
+    return titanic2_df 
 
 
+# ---------------------
+# Create a model that includes only age, fare, and pclass. Does this model perform better than your baseline?
+# remove the following futures: sibsp	parch	alone	sex_male	embarked_Q	embarked_S
+# This will clean the data. 
+def prep_titanic3(titanic_df):
+    '''
+    This function will clean the the titanic dataset
+    '''
+    
+    titanic3_df = titanic_df['age'].fillna(0, inplace=True)
+    
+    # Drop any duplicates values
+    titanic3_df = titanic_df.drop_duplicates()
+    
+#     # Fills the small number of null values for embark_town with the mode
+#     titanic_df['embark_town'] = titanic_df.embark_town.fillna(value='Southampton')
+    
+    # Uses one-hot encoding to create dummies of string columns for future modeling 
+    dummy_titanic3 = pd.get_dummies(titanic_df[['sex']],dummy_na=False, drop_first=True)
+    titanic3_df = pd.concat([titanic_df, dummy_titanic3], axis=1)
+    
+    # Drops columns that are already represented by other columns
+    titanic3_df = titanic3_df.drop(columns = ['passenger_id','embark_town',
+                                       'class','sex','deck','embarked','sibsp','parch','alone'])
+    
 
+    return titanic3_df 
 
+# ---------------------
+# Create a model that includes only age, fare, and pclass. Does this model perform better than your baseline?
+# remove the following futures: sibsp	parch	alone	sex_male	embarked_Q	embarked_S
+# This will clean the data. 
+def prep_titanic4(titanic_df):
+    '''
+    This function will clean the the titanic dataset
+    '''
+    
+    titanic4_df = titanic_df['age'].fillna(0, inplace=True)
+    
+    # Drop any duplicates values
+    titanic4_df = titanic_df.drop_duplicates()
+    
+    # Fills the small number of null values for embark_town with the mode
+    titanic4_df['embark_town'] = titanic_df.embark_town.fillna(value='Southampton')
+    
+    # Uses one-hot encoding to create dummies of string columns for future modeling 
+    dummy_titanic4 = pd.get_dummies(titanic4_df[['sex','embarked']],dummy_na=False, drop_first=True)
+    titanic4_df = pd.concat([titanic4_df, dummy_titanic4], axis=1)
+    
+    # Drops columns that are already represented by other columns
+    titanic4_df = titanic4_df.drop(columns = ['passenger_id','embark_town',
+                                       'class','sex','deck','embarked','sibsp','parch','alone'])
+    
+
+    return titanic4_df 
 
 
 
